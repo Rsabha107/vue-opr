@@ -18,9 +18,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::inertia('MyAuth/Login', 'MyAuth/Login')->name('mylogin');
-Route::inertia('MyAuth/Register', 'MyAuth/Register')->name('myregister');
-Route::inertia('MyAuth/ForgotPassword', 'MyAuth/ForgotPassword')->name('myforgotpassword');
+Route::inertia('Auth/Login', 'Auth/Login')->name('mylogin');
+Route::inertia('Auth/Register', 'Auth/Register')->name('myregister');
+Route::inertia('Auth/ForgotPassword', 'Auth/ForgotPassword')->name('myforgotpassword');
 
 Route::middleware('otp.pending')->group(function () {
     Route::get('/otp', [OtpController::class, 'show'])->name('otp.show');
@@ -35,7 +35,7 @@ Route::controller(MicrosoftController::class)->group(function () {
 
 
 Route::get('password/confirmed', function () {
-    return Inertia::render('MyAuth/Confirmation', [
+    return Inertia::render('Auth/Confirmation', [
         'icon'          => 'bx bx-check-circle',
         'iconColor'     => 'text-success',
         'title'         => 'Password Changed!',
@@ -56,12 +56,7 @@ Route::get('password/confirmed', function () {
 Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {
-        return Inertia::render('Mypage', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
+        return redirect()->route('observation.admin');
     })->name('home');
 
     // Observation Programme Routes

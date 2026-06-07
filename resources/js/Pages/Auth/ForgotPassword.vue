@@ -1,68 +1,100 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { useForm } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 
-defineProps({
-    status: {
-        type: String,
-    },
-});
+const props = defineProps({ status: String });
 
-const form = useForm({
-    email: '',
-});
+const form = useForm({ email: "" });
 
-const submit = () => {
-    form.post(route('password.email'));
-};
+const submit = () => form.post("/forgot-password");
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Forgot Password" />
-
-        <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email
-            address and we will email you a password reset link that will allow
-            you to choose a new one.
-        </div>
-
-        <div
-            v-if="status"
-            class="mb-4 text-sm font-medium text-green-600"
-        >
-            {{ status }}
-        </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
+  <Head title="Forgot Password" />
+  <div class="account-pages my-5 pt-sm-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+          <div class="card overflow-hidden">
+            <div class="bg-primary-subtle">
+              <div class="row">
+                <div class="col-7">
+                  <div class="text-primary p-4">
+                    <h5 class="text-primary">Reset Password</h5>
+                    <p>Enter your email to receive password reset instructions.</p>
+                  </div>
+                </div>
+                <div class="col-5 align-self-end">
+                  <img
+                    alt=""
+                    class="img-fluid"
+                    src="/assets/images/profile-img.png"
+                  />
+                </div>
+              </div>
             </div>
-
-            <div class="mt-4 flex items-center justify-end">
-                <PrimaryButton
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Email Password Reset Link
-                </PrimaryButton>
+            <div class="card-body pt-0">
+              <div>
+                <Link :href="route('mypage')">
+                  <div class="avatar-md profile-user-wid mb-4">
+                    <span class="avatar-title rounded-circle bg-light">
+                      <img
+                        alt=""
+                        class="rounded-circle"
+                        height="34"
+                        src="/assets/images/logo.svg"
+                      />
+                    </span>
+                  </div>
+                </Link>
+              </div>
+              <div class="p-2">
+                <!-- <div class="alert alert-success text-center mb-4" role="alert">
+                  Enter your Email and instructions will be sent to you!
+                </div> -->
+                <!-- <form action="index.html" class="form-horizontal"> -->
+                <form @submit.prevent="submit">
+                  <div class="mb-3">
+                    <label class="form-label" for="useremail"> Email </label>
+                    <input
+                      v-model="form.email"
+                      class="form-control"
+                      id="useremail"
+                      placeholder="Enter email"
+                      type="email"
+                      required
+                    />
+                  </div>
+                  <div class="text-end">
+                    <button
+                      class="btn btn-primary w-md waves-effect waves-light"
+                      type="submit"
+                      :disabled="form.processing"
+                    >
+                      <span
+                        v-if="form.processing"
+                        class="spinner-border spinner-border-sm me-1"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      {{ form.processing ? 'Sending...' : 'Send Reset Link' }}
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-        </form>
-    </GuestLayout>
+          </div>
+          <div class="mt-5 text-center">
+            <p>
+              Remember It ?
+              <Link class="fw-medium text-primary" :href="route('mylogin')">
+                Sign In here
+              </Link>
+            </p>
+            <!-- <AuthFooter /> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
