@@ -73,6 +73,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/success', 'success')->name('observation.success');
         Route::get('/admin', 'admin')->name('observation.admin');
         Route::get('/photo/{photo}', 'servePhoto')->name('observation.photo');
+        Route::get('/export-pdf/{reportId}', 'exportPdf')->name('observation.export-pdf');
+        Route::get('/export-excel', 'exportExcel')->name('observation.export-excel');
     });
 
     Route::get('/users/export', [UserExportController::class, 'export'])->name('users.export');

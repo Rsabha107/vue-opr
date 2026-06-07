@@ -18,9 +18,9 @@
               <h1 class="mast-title">Submissions Console</h1>
             </div>
           </div>
-          <button type="button" class="btn solid" @click="printAll">
+          <button type="button" class="btn solid" @click="exportAll">
             <Icon name="download" :size="17" />
-            Export PDF
+            Export to Excel
           </button>
         </div>
 
@@ -423,15 +423,18 @@ function reset() {
   fType.value = '';
 }
 
-// Print
+// Export to PDF (single report)
 function printEntry(entry) {
-  printTarget.value = { mode: 'one', entries: [entry] };
-  triggerPrint();
+  // Extract the numeric report ID from entry.reportId or entry.id (format: r{reportId})
+  const reportIdStr = entry.reportId || entry.id;
+  const reportId = reportIdStr.toString().replace(/^r/, '');
+  // Open PDF export in new tab
+  window.open(`/observation/export-pdf/${reportId}`, '_blank');
 }
 
-function printAll() {
-  printTarget.value = { mode: 'list', entries: filteredEntries.value };
-  triggerPrint();
+// Export all reports to Excel
+function exportAll() {
+  window.location.href = '/observation/export-excel';
 }
 
 function triggerPrint() {

@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ObservationReportsExport;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -304,152 +307,46 @@ class ObservationController extends Controller
      */
     public function admin(): Response
     {
-        // TODO: Replace with real DB queries once models/relations are ready.
-        // For now, return sample submissions so the console renders with data.
-        $day = fn(int $d) => (int) (new \DateTime("2026-05-{$d} 09:30"))->format('U') * 1000;
+        // Fetch submitted observation reports from database
+        $reports = ObservationReport::where('status', 'submitted')
+            ->with([
+                'venues.entries.types',
+                'venues.entries.areas',
+                'venues.entries.photos'
+            ])
+            ->orderBy('submitted_at', 'desc')
+            ->get();
 
-        $submissions = [
-            [
-                'id' => 'r1',
-                'reporter' => ['name' => 'Alex Moreno', 'role' => 'Venue Operations Observer'],
-                'submittedAt' => $day(26),
-                'venues' => [
-                    [
-                        'type' => 'Stadium',
-                        'entries' => [
-                            [
-                                'types' => ['best_practice'],
-                                'areas' => ['SAF', 'STA'],
-                                'applicability' => 'must_have',
-                                'photos' => [],
-                                'description' => 'Crowd flow at the north concourse was managed with dynamic lane dividers that staff repositioned in real time as spectator density shifted, noticeably cutting peak egress time after the final whistle.',
-                            ],
-                            [
-                                'types' => ['challenge'],
-                                'areas' => ['EVE', 'CAT'],
-                                'applicability' => 'assess',
-                                'photos' => [],
-                                'description' => 'Concession restocking during half-time relied on a single service corridor shared with medical access, creating congestion at the busiest moment and a potential conflict with emergency movement.',
-                            ],
-                        ],
-                    ],
-                    [
-                        'type' => 'Broadcasting / Media Centre',
-                        'entries' => [
-                            [
-                                'types' => ['observation'],
-                                'areas' => ['ACS & ACR'],
-                                'applicability' => 'already',
-                                'photos' => [],
-                                'description' => 'Dedicated fast-track accreditation lanes were clearly signed and staffed, with average processing under two minutes for arriving delegations during the morning peak.',
-                            ],
-                        ],
-                    ],
+        // Format submissions for the admin page
+        $submissions = $reports->map(function ($report) {
+            return [
+                'id' => 'r' . $report->id,
+                'reporter' => [
+                    'name' => $report->reporter_name,
+                    'role' => $report->reporter_role ?? 'Observer',
                 ],
-            ],
-            [
-                'id' => 'r2',
-                'reporter' => ['name' => 'Priya Nair', 'role' => 'Spectator Experience Observer'],
-                'submittedAt' => $day(27),
-                'venues' => [
-                    [
-                        'type' => 'Fan Zone / Stadium Precinct',
-                        'entries' => [
-                            [
-                                'types' => ['innovation'],
-                                'areas' => ['IT', 'FAN'],
-                                'applicability' => 'good_to_have',
-                                'photos' => [],
-                                'description' => 'A live second-screen experience let fans vote on in-zone activations via QR, with results displayed on the main LED wall to sustain engagement between matches.',
-                            ],
-                            [
-                                'types' => ['recommendation'],
-                                'areas' => ['ENV'],
-                                'applicability' => 'must_have',
-                                'photos' => [],
-                                'description' => 'Introduce clearly colour-coded waste stations with multilingual iconography. The current single-stream bins led to high contamination of the recycling stream throughout the day.',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'id' => 'r3',
-                'reporter' => ['name' => 'Tomás Costa', 'role' => 'Competition Services Observer'],
-                'submittedAt' => $day(28),
-                'venues' => [
-                    [
-                        'type' => 'Stadium',
-                        'entries' => [
-                            [
-                                'types' => ['observation', 'best_practice'],
-                                'areas' => ['GOV', 'MED'],
-                                'applicability' => 'na',
-                                'photos' => [],
-                                'description' => 'On-site recovery facilities included physiotherapy rooms directly adjacent to the briefing space, minimising transit time for officials between sessions.',
-                            ],
-                        ],
-                    ],
-                    [
-                        'type' => 'Training Ground',
-                        'entries' => [
-                            [
-                                'types' => ['challenge'],
-                                'areas' => ['IT'],
-                                'applicability' => 'assess',
-                                'photos' => [],
-                                'description' => 'Temporary power for broadcast units lacked a redundant feed. A single generator fault interrupted a scheduled training broadcast test and would have been disruptive on a live day.',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'id' => 'r4',
-                'reporter' => ['name' => 'Lena Fischer', 'role' => 'Media Operations Observer'],
-                'submittedAt' => $day(29),
-                'venues' => [
-                    [
-                        'type' => 'Broadcasting / Media Centre',
-                        'entries' => [
-                            [
-                                'types' => ['best_practice'],
-                                'areas' => ['BRO', 'IT'],
-                                'applicability' => 'must_have',
-                                'photos' => [],
-                                'description' => 'The press workroom offered hot-desk booking via a simple kiosk, with real-time seat availability shown on entry screens, reducing crowding at peak filing times.',
-                            ],
-                            [
-                                'types' => ['innovation'],
-                                'areas' => ['MAR'],
-                                'applicability' => 'good_to_have',
-                                'photos' => [],
-                                'description' => 'Wayfinding used dynamic e-ink signage that updated mixed-zone locations per match, removing the need for reprinted static boards between sessions.',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'id' => 'r5',
-                'reporter' => ['name' => 'Yuki Tanaka', 'role' => 'Sustainability Observer'],
-                'submittedAt' => $day(30),
-                'venues' => [
-                    [
-                        'type' => 'Stadium',
-                        'entries' => [
-                            [
-                                'types' => ['recommendation'],
-                                'areas' => ['ENV', 'CAT'],
-                                'applicability' => 'must_have',
-                                'photos' => [],
-                                'description' => 'Adopt a reusable cup deposit scheme stadium-wide. A pilot in two stands showed strong return rates and a visible reduction in concourse litter by the end of the match.',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ];
+                'submittedAt' => $report->submitted_at ? $report->submitted_at->timestamp * 1000 : now()->timestamp * 1000,
+                'venues' => $report->venues->map(function ($venue) {
+                    return [
+                        'type' => $venue->venue_type_other ?: $venue->venue_type,
+                        'entries' => $venue->entries->map(function ($entry) {
+                            return [
+                                'types' => $entry->types->pluck('type')->toArray(),
+                                'areas' => $entry->areas->pluck('area_code')->toArray(),
+                                'applicability' => $entry->applicability,
+                                'photos' => $entry->photos->map(function ($photo) {
+                                    return [
+                                        'url' => $photo->url,
+                                        'caption' => $photo->original_name,
+                                    ];
+                                })->toArray(),
+                                'description' => $entry->description,
+                            ];
+                        })->toArray(),
+                    ];
+                })->toArray(),
+            ];
+        })->toArray();
 
         // Fetch functional areas from database
         $functionalAreas = FunctionalArea::where('active_flag', 1)
@@ -519,5 +416,63 @@ class ObservationController extends Controller
                 'Content-Disposition' => 'inline; filename="' . $photo->original_name . '"',
             ]
         );
+    }
+
+    /**
+     * Export observation report to PDF
+     */
+    public function exportPdf($reportId)
+    {
+        $report = ObservationReport::where('id', $reportId)
+            ->where('status', 'submitted')
+            ->with([
+                'venues.entries.types',
+                'venues.entries.areas',
+                'venues.entries.photos'
+            ])
+            ->firstOrFail();
+
+        // Get functional areas for display names
+        $functionalAreas = FunctionalArea::where('active_flag', 1)
+            ->get()
+            ->keyBy('fa_code');
+
+        // Convert photos to base64 for PDF embedding
+        foreach ($report->venues as $venue) {
+            foreach ($venue->entries as $entry) {
+                foreach ($entry->photos as $photo) {
+                    if (Storage::disk($photo->disk)->exists($photo->path)) {
+                        $imageData = Storage::disk($photo->disk)->get($photo->path);
+                        $photo->base64 = 'data:' . $photo->mime_type . ';base64,' . base64_encode($imageData);
+                    }
+                }
+            }
+        }
+
+        $data = [
+            'report' => $report,
+            'functionalAreas' => $functionalAreas,
+        ];
+
+        $pdf = Pdf::loadView('observation.pdf-report', $data)
+            ->setPaper('a4', 'portrait')
+            ->setOption('margin-top', 5)
+            ->setOption('margin-right', 5)
+            ->setOption('margin-bottom', 5)
+            ->setOption('margin-left', 5);
+
+        $filename = 'observation-report-' . $report->id . '-' . date('Y-m-d') . '.pdf';
+
+        return $pdf->stream($filename);
+    }
+
+    /**
+     * Export all observation reports to Excel
+     */
+    public function exportExcel()
+    {
+        $filename = 'observation-reports-' . date('Y-m-d') . '.xlsx';
+        
+        return Excel::download(new ObservationReportsExport, $filename);
     }
 }
