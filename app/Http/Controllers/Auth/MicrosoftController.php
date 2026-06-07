@@ -43,7 +43,7 @@ class MicrosoftController extends Controller
             Log::info('login_method set to microsoft for user: ' . $user->email . ' with value: ' . session('login_method'));
             Log::info('Microsoft login successful: ' . $user->email);
 
-            return redirect()->intended('/');
+            return redirect()->intended(route('observation.form'));
 
         } catch (Exception $e) {
             Log::error('Microsoft callback error: ' . $e->getMessage());

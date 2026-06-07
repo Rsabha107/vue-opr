@@ -7,6 +7,7 @@ use App\Http\Controllers\Ems\EventController;
 use App\Http\Controllers\Ems\FunctionalAreaController;
 use App\Http\Controllers\Ems\VenueController;
 use App\Http\Controllers\GlobalStatusController;
+use App\Http\Controllers\ObservationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -62,6 +63,17 @@ Route::middleware('auth')->group(function () {
             'phpVersion' => PHP_VERSION,
         ]);
     })->name('home');
+
+    // Observation Programme Routes
+    Route::controller(ObservationController::class)->prefix('observation')->group(function () {
+        Route::get('/form', 'create')->name('observation.form');
+        Route::post('/form', 'store')->name('observation.store');
+        Route::post('/draft', 'saveDraft')->name('observation.draft');
+        Route::delete('/draft/{draftId}', 'deleteDraft')->name('observation.draft.delete');
+        Route::get('/success', 'success')->name('observation.success');
+        Route::get('/admin', 'admin')->name('observation.admin');
+        Route::get('/photo/{photo}', 'servePhoto')->name('observation.photo');
+    });
 
     Route::get('/users/export', [UserExportController::class, 'export'])->name('users.export');
     Route::get('/statuses', [GlobalStatusController::class, 'getStatuses'])->name('global.statuses.get');
