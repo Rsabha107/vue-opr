@@ -53,8 +53,13 @@ defineEmits(['update:checked']);
   transition: 0.13s;
 }
 
-.chk-tile:hover:not(.is-disabled) {
+.chk-tile:hover:not(.is-disabled):not(.is-on) {
   border-color: var(--ink-faint);
+}
+
+.chk-tile.is-on:hover:not(.is-disabled) {
+  border-color: #5f1722;
+  background: color-mix(in srgb, #5f1722 12%, var(--field-bg));
 }
 
 .chk-tile input {

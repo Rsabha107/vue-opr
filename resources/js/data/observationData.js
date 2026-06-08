@@ -87,8 +87,8 @@ export const THEMES = {
     vars: {
       "--primary": "#0A1733",
       "--primary-light": "#1A2F52",
-      "--accent": "#C6F24E",
-      "--accent-dark": "#A8D13A",
+      "--accent": "#7c1d2b",
+      "--accent-dark": "#5f1722",
       "--text": "#FFFFFF",
       "--text-muted": "#8B9AB8",
       "--border": "#2A3F5F",

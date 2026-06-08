@@ -79,23 +79,36 @@ defineEmits(['update:modelValue']);
   transition: 0.14s;
 }
 
-.radio-pill:hover {
+.radio-pill:hover:not(.is-on) {
   border-color: var(--ink-faint);
   background: var(--surface-2);
 }
 
 .radio-pill.is-on {
-  color: var(--ink);
-  border-color: currentColor;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.radio-pill.is-on:hover {
+  background: #5f1722;
+  border-color: #5f1722;
 }
 
 .radio-pill.is-on .radio-dot {
+  border-color: var(--accent-ink);
+  background: var(--accent-ink);
   border-width: 5px;
 }
 
-.radio-pill.tone-danger.is-on   { color: #119a5b; }
-.radio-pill.tone-success.is-on  { color: #2563d8; }
-.radio-pill.tone-info.is-on     { color: #7c5cff; }
-.radio-pill.tone-secondary.is-on{ color: #64748b; }
-.radio-pill.tone-warning.is-on  { color: #d98314; }
+/* All tone variants use the same burgundy theme */
+.radio-pill.tone-danger.is-on,
+.radio-pill.tone-success.is-on,
+.radio-pill.tone-info.is-on,
+.radio-pill.tone-secondary.is-on,
+.radio-pill.tone-warning.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
 </style>

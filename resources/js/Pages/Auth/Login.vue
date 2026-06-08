@@ -240,7 +240,7 @@ const themeVars = computed(() => {
 .obs-auth-header {
   text-align: center;
   padding: 3rem 2rem 2rem;
-  background: linear-gradient(180deg, rgba(198, 242, 78, 0.05) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(124, 29, 43, 0.05) 0%, transparent 100%);
 }
 
 .obs-auth-logo {
@@ -250,7 +250,7 @@ const themeVars = computed(() => {
 }
 
 .obs-auth-icon {
-  color: var(--accent);
+  color: white;
   margin-bottom: 1.5rem;
 }
 
@@ -323,8 +323,8 @@ const themeVars = computed(() => {
 
 .obs-input:focus {
   outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(198, 242, 78, 0.1);
+  border-color: #7c1d2b;
+  box-shadow: 0 0 0 3px rgba(124, 29, 43, 0.15);
 }
 
 .obs-input.has-error {
@@ -381,8 +381,8 @@ const themeVars = computed(() => {
 }
 
 .obs-checkbox-input:checked {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: #7c1d2b;
+  border-color: #7c1d2b;
 }
 
 .obs-checkbox-label {
@@ -408,12 +408,12 @@ const themeVars = computed(() => {
 }
 
 .obs-btn-primary {
-  background: var(--accent);
-  color: var(--primary);
+  background: #7c1d2b;
+  color: white;
 }
 
 .obs-btn-primary:hover:not(:disabled) {
-  background: var(--accent-dark);
+  background: #5f1722;
   transform: translateY(-1px);
 }
 
@@ -430,15 +430,15 @@ const themeVars = computed(() => {
 }
 
 .obs-btn-microsoft:hover {
-  border-color: var(--accent);
-  background: rgba(198, 242, 78, 0.05);
+  border-color: #7c1d2b;
+  background: rgba(124, 29, 43, 0.05);
 }
 
 .obs-spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(0, 0, 0, 0.3);
-  border-top-color: var(--primary);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }
@@ -480,16 +480,16 @@ const themeVars = computed(() => {
 }
 
 .obs-link:hover {
-  color: var(--accent);
+  color: white;
 }
 
 .obs-link-primary {
-  color: var(--accent);
+  color: white;
   font-weight: 600;
 }
 
 .obs-link-primary:hover {
-  color: var(--accent-dark);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .obs-auth-footer {

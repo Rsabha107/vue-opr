@@ -49,7 +49,7 @@ defineEmits(['update:checked']);
   user-select: none;
 }
 
-.pill-check:hover:not(.is-disabled) {
+.pill-check:hover:not(.is-disabled):not(.is-checked) {
   border-color: var(--ink-faint);
   background: var(--surface-2);
 }
@@ -58,6 +58,11 @@ defineEmits(['update:checked']);
   background: var(--accent);
   border-color: var(--accent);
   color: var(--accent-ink);
+}
+
+.pill-check.is-checked:hover:not(.is-disabled) {
+  background: #5f1722;
+  border-color: #5f1722;
 }
 
 .pill-check.is-disabled {

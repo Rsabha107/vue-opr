@@ -24,20 +24,20 @@
   --bg: #0a1733;
   --bg-2: #1a2744;
   --stripe: rgba(255, 255, 255, 0.02);
-  --accent: #C6F24E;
-  --accent-ink: #16320a;
+  --accent: #7c1d2b;
+  --accent-ink: #ffffff;
   /* Card / surface theme — light cards on dark page */
   --ink: #1e293b;
   --ink-soft: #64748b;
   --ink-faint: #94a3b8;
   --header-ink: #f8fafc;
-  --header-soft: #64748b;
+  --header-soft: #94a3b8;
   --surface: #ffffff;
   --surface-2: #f1f5f9;
   --surface-line: #e2e8f0;
   --field-bg: #ffffff;
   --chip-ink: #64748b;
-  --ring: rgba(198, 242, 78, 0.25);
+  --ring: rgba(124, 29, 43, 0.25);
 }
 
 [data-density="compact"] {
@@ -120,7 +120,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.22em;
   font-size: 12px;
-  color: var(--accent);
+  color: #cbd5e1;
 }
 
 .mast-title {
@@ -241,7 +241,7 @@ body {
 }
 
 .mast-stats .saved {
-  color: var(--accent);
+  color: #f8fafc;
 }
 
 .autosave-toggle {
@@ -252,7 +252,7 @@ body {
   background: transparent;
   border: 1px solid color-mix(in srgb, var(--header-soft) 25%, transparent);
   border-radius: 6px;
-  color: var(--header-soft);
+  color: #f8fafc;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -266,23 +266,24 @@ body {
   padding: 2px 6px;
   border-radius: 4px;
   background: color-mix(in srgb, var(--header-soft) 15%, transparent);
-  color: var(--header-soft);
+  color: #f8fafc;
   transition: all 0.2s ease;
 }
 
 .autosave-toggle.is-enabled {
-  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-  color: var(--accent);
+  border-color: color-mix(in srgb, #f8fafc 50%, transparent);
+  color: #f8fafc;
 }
 
 .autosave-toggle.is-enabled .toggle-state {
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: #f8fafc;
+  color: #0a1733;
 }
 
 .autosave-toggle:hover {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-color: #cbd5e1;
+  background: color-mix(in srgb, #cbd5e1 8%, transparent);
+  color: #f8fafc;
 }
 
 /* Sheet (Form Container) */
@@ -495,7 +496,7 @@ body {
 }
 
 .ab-status--ok {
-  color: var(--accent);
+  color: #a3e635;
 }
 
 .ab-status--error {
@@ -766,32 +767,26 @@ body {
 }
 
 .radio-pill.is-on {
-  color: var(--ink);
-  border-color: currentColor;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .radio-pill.is-on .radio-dot {
+  border-color: var(--accent-ink);
+  background: var(--accent-ink);
   border-width: 5px;
 }
 
-.radio-pill.tone-must.is-on {
-  color: #119a5b;
-}
-
-.radio-pill.tone-good.is-on {
-  color: #2563d8;
-}
-
-.radio-pill.tone-done.is-on {
-  color: #7c5cff;
-}
-
-.radio-pill.tone-na.is-on {
-  color: #8a93a8;
-}
-
+/* Remove tone-specific colors - all use same theme */
+.radio-pill.tone-must.is-on,
+.radio-pill.tone-good.is-on,
+.radio-pill.tone-done.is-on,
+.radio-pill.tone-na.is-on,
 .radio-pill.tone-assess.is-on {
-  color: #d98314;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
 }
 
 /* Photos */

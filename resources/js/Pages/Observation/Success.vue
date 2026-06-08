@@ -94,8 +94,8 @@ defineProps({
   width: 76px;
   height: 76px;
   border-radius: 50%;
-  background: #C6F24E;
-  color: #16320a;
+  background: #7c1d2b;
+  color: #ffffff;
   display: grid;
   place-items: center;
   margin: 0 auto 22px;
@@ -215,9 +215,9 @@ defineProps({
 }
 
 .btn-solid {
-  background: #C6F24E;
-  border: 1.5px solid #C6F24E;
-  color: #16320a;
+  background: #7c1d2b;
+  border: 1.5px solid #7c1d2b;
+  color: #ffffff;
 }
 
 .btn-solid:hover {

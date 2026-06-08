@@ -257,10 +257,10 @@
         <div v-if="printTarget" class="print-doc">
           <div class="pr-head">
             <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
-              <path d="M24 2l18 7v12c0 12-8.5 19.5-18 25C14.5 40.5 6 33 6 21V9z" fill="#C6F24E" />
+              <path d="M24 2l18 7v12c0 12-8.5 19.5-18 25C14.5 40.5 6 33 6 21V9z" fill="#7c1d2b" />
               <path d="M24 2l18 7v12c0 12-8.5 19.5-18 25z" fill="rgba(0,0,0,0.14)" />
-              <path d="M16 19h16M16 25h16M16 31h10" stroke="#16320a" stroke-width="2.4" stroke-linecap="round" />
-              <circle cx="24" cy="13" r="3" fill="#16320a" />
+              <path d="M16 19h16M16 25h16M16 31h10" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" />
+              <circle cx="24" cy="13" r="3" fill="#ffffff" />
             </svg>
             <div class="pr-title-wrap">
               <span class="pr-kicker">Observation Programme</span>
