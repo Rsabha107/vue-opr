@@ -56,7 +56,7 @@ Route::get('password/confirmed', function () {
 Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {
-        return redirect()->route('observation.admin');
+        return redirect()->route('observation.form');
     })->name('home');
 
     // Observation Programme Routes
